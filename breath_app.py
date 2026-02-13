@@ -5,12 +5,12 @@ import threading
 # Breathing configuration
 PATTERN = [
     ("Inhale", 4),
-    ("Hold", 4),
-    ("Exhale", 4),
-    ("Hold", 4),
+    ("Hold", 5),
+    ("Exhale", 6),
+    ("Hold", 7),
 ]
 
-TOTAL_DURATION = 120  # 2 minutes in seconds
+TOTAL_DURATION = 120
 
 class BreathingApp:
     def __init__(self, root):
@@ -41,7 +41,11 @@ class BreathingApp:
     def start_breathing(self):
         if not self.running:
             self.running = True
+            self.start_button.config(text="Stop")
             threading.Thread(target=self.run_breathing).start()
+        else:
+            self.running = False
+            self.start_button.config(text="Start")
 
     def run_breathing(self):
         start_time = time.time()
@@ -54,6 +58,7 @@ class BreathingApp:
 
         self.update_label("Done 🌿")
         self.running = False
+        self.start_button.config(text="Start")
 
     def update_label(self, text):
         self.label.config(text=text)
